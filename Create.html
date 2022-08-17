@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>create</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+     rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        input[type=text]{
+            color:black;
+            border:1px solid rgb(36, 200, 245);
+            padding: 5px;
+            margin: 4px;
+            background-color: #45dcbe;
+            outline: none;
+        }
+        div.card-body{
+            background-color: #45dcbe;
+        }
+        textarea{
+            vertical-align: top;
+            color:black;
+            border:1px solid rgb(36, 200, 245);
+            padding: 5px;
+            margin: 4px;
+            background-color: #45dcbe;
+            outline:none;
+            }
+    </style>
+</head>
+<body>
+    <center>
+        <div class="col-4 m-1 border border-light card mx-auto">
+            <div class="card-body">
+                <p class="card-title">Title:<textarea name="title" id="title" cols="20" rows="5" placeholder="title"></textarea></p>
+                <p class="card-title">Status:<input type="text" id="completed" placeholder="completed"></p>
+                <div><button id="btn">Submit</button></div>
+            </div>
+        </div>
+        </center>
+        <div id="div1">
+            
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script>
+    // axios.post(`https://jsonplaceholder.typicode.com/todos/`)
+    // .then(function (response){
+    //         document.getElementById("title").value=response.data.title;
+    //         document.getElementById("completed").value=response.data.completed;  
+    // })
+    // .catch(function (error){
+    //     //handle error
+    //     console.log(error);
+    // })
+    let allposts=[];
+    document.getElementById("btn").addEventListener("click",makerequest);
+    let output=document.getElementById("div1");
+
+    function makerequest(e){
+        e.preventDefault()
+        let title=document.getElementById("title").value;
+        let body=document.getElementById("completed").value;
+        url=`https://jsonplaceholder.typicode.com/todos/`
+        data={title:title,body:body}
+        const config={
+            headers:{
+            'Content-Type':'application/json'
+            }
+        }
+     
+        axios.post(url,data,config)
+        .then((res)=>{
+            allposts=res.data;
+            output.innerHTML+= allposts.map(user => `
+            <a style="color:black; text-decoration:none;" href="Edit.html?id=${user.id}">
+            <div class="col-4 m-1 border border-light card mx-auto">
+            <div class="card-body">
+            <p class="card-title">ID: ${user.id}</p>
+            <p class="card-title">Title: ${user.title}</p>
+            <p >Completed: ${user.completed}</p>
+            </div>
+            </div> 
+            </a> `
+            )
+            console.log(res.data)
+            alert("data added sucessfully");
+        }).catch((error)=>{
+            console.log(error);
+        })
+}
+
+    // axios.get(`https://jsonplaceholder.typicode.com/todos/`)
+    // .then(function (response){
+    //     allposts=res.data;
+    // allposts.forEach(element=>{
+    //   output.innerHTML+=`
+    //    <div>ID: ${element.id}</div>
+    //    <div>Title: ${element.title}</div>
+    //    <div>Body: ${element.completed}</div>
+    //   <br>
+    //         `
+    // })
+    // .catch(function (error){
+    //     //handle error
+    //     console.log(error);
+    // })
+
+
+
+</script>
+</body>
+</html>
